@@ -312,16 +312,29 @@ export function toToggle(components: string[]) {
     return !("camera" in components) && !("point_light" in components) && !("label" in components);
 }
 
+async function setAnimSeqControllerPlayState(playState: number) {
+    const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID("4ea7fe5c-dc7d-4397-9d56-03a4758e37fb"))[0];
+    const sequenceControlerComponent = animSeqControllerEntity.getComponent("animation_sequence_controller");
+
+    const newSequenceControlerComponent = {
+        ...sequenceControlerComponent,
+        playState: playState,
+    };
+
+    animSeqControllerEntity.setComponent("animation_sequence_controller", newSequenceControlerComponent);
+
+}
+
 export async function runAnimation(uuid: string) {
-    SDK3DVerse.engineAPI.playAnimationSequence(uuid, { playbackSpeed: 1, seekOffset: 0 });
+    setAnimSeqControllerPlayState(1);
 }
 
 export async function pauseAnimation(uuid: string) {
-    SDK3DVerse.engineAPI.pauseAnimationSequence(uuid);
+    setAnimSeqControllerPlayState(2);
 }
 
 export async function stopAnimation(uuid: string) {
-    SDK3DVerse.engineAPI.stopAnimationSequence(uuid);
+    setAnimSeqControllerPlayState(0);
 }
 
 export async function showClientAvatars() {
