@@ -29,6 +29,7 @@ export const SmartControlLight = () => {
         const update = async () => {
             const _spotLightEntity = await getSpotlightEntity();
             setSpotLightEntity(_spotLightEntity);
+            console.log(_spotLightEntity);
             setIntensity(_spotLightEntity.components.point_light.intensity);
             setColor(_spotLightEntity.components.point_light.color);
         };

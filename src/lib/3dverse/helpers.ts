@@ -427,14 +427,14 @@ export class CameraController_ {
 }
 
 //--------------------------------------------------------------------------
-export const SPOTLIGHT_EUID = "5f0cf797-d27a-4f53-91b3-de21758050dd";
-export const DOOR_GUID = "02a5zYLwD3j9mC$YV6woIu";
+export const SPOTLIGHT_EUID = "cd0609bb-6366-4640-867f-e753e2cd64b1";
+export const DOOR_GUID = "1PDnLIM013wvkZO9Lb4$s7";
 export const DOOR_EUID = guid2euid(DOOR_GUID);
 export const LAMP_POS = {
     "position": [
-        -13.776593208312988,
-        23.876976013183594,
-        16.927749633789062
+        -2.446315,
+        1.850855,
+        0.015018
     ],
     "orientation": [
         -0.10769039392471313,
@@ -468,7 +468,7 @@ export const DOOR_POS = {
     ]
 };
 
-export const LAMP_COORDS = [-17.66144561767578, 21.286380767822266, 7.2220964431762695];
+export const LAMP_COORDS = [-2.446315,1.850855,0.015018];
 export const DOOR_COORDS = [-5.474447250366211, 1.8857547044754028, -3.1728570461273193];
 
 //--------------------------------------------------------------------------
