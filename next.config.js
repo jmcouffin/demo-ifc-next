@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'export',
-  basePath: '/demo-ifc-next',
+//   basePath: '/demo-ifc-next',
 };
 
 module.exports = {

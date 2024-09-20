@@ -18,7 +18,7 @@ export const SmartControlDoor = ({
 }) => {
     //------------------------------------------------------------------------------
     const [isAnimationPlaying, setAnimationPlaying] = useState(false);
-    const ANIMATION_UUID = "a7a62caf-5d66-4318-9057-0270f9dcdfdb";
+    const ANIMATION_UUID = "4a621b5b-2ecb-45ff-9748-a708b6188342";
 
     //------------------------------------------------------------------------------
     const toggleAnimation = () => {

@@ -313,7 +313,7 @@ export function toToggle(components: string[]) {
 }
 
 async function setAnimSeqControllerPlayState(playState: number) {
-    const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID("4ea7fe5c-dc7d-4397-9d56-03a4758e37fb"))[0];
+    const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID("4a621b5b-2ecb-45ff-9748-a708b6188342"))[0];
     const sequenceControlerComponent = animSeqControllerEntity.getComponent("animation_sequence_controller");
 
     const newSequenceControlerComponent = {
@@ -428,19 +428,19 @@ export class CameraController_ {
 
 //--------------------------------------------------------------------------
 export const SPOTLIGHT_EUID = "cd0609bb-6366-4640-867f-e753e2cd64b1";
-export const DOOR_GUID = "1PDnLIM013wvkZO9Lb4$s7";
+export const DOOR_GUID = "1PDnLIM013wvkZO9Lb4$i6";
 export const DOOR_EUID = guid2euid(DOOR_GUID);
 export const LAMP_POS = {
     "position": [
-        -2.446315,
-        1.850855,
-        0.015018
+        -1.74158,
+        1.632169,
+        -0.204084
     ],
     "orientation": [
-        -0.10769039392471313,
-        0.20175310969352722,
-        0.02232445776462555,
-        0.9732420444488525
+        -0.1,
+        0.2,
+        0.02,
+        1
     ],
     "scale": [
         1,
@@ -451,15 +451,15 @@ export const LAMP_POS = {
 
 export const DOOR_POS = {
     "position": [
-        -4.479108810424805,
-        3.9693682193756104,
-        -12.742539405822754
+        10.82,
+        2.9999,
+        -2.89
     ],
     "orientation": [
-        -0.0001572112669236958,
-        0.9922422766685486,
-        0.12431281059980392,
-        0.0012550128158181906
+        -90,
+        0,
+        0,
+        0
     ],
     "scale": [
         1,
@@ -469,7 +469,7 @@ export const DOOR_POS = {
 };
 
 export const LAMP_COORDS = [-2.446315,1.850855,0.015018];
-export const DOOR_COORDS = [-5.474447250366211, 1.8857547044754028, -3.1728570461273193];
+export const DOOR_COORDS = [11.78304672241211,4.192835330963135,-5.463983058929443];
 
 //--------------------------------------------------------------------------
 export const getSpotlightEntity = async () => {
@@ -481,7 +481,7 @@ export const getSpotlightEntity = async () => {
 export const travelToEntity = async (entityUUID: string) => {
     const [entity] = await SDK3DVerse.engineAPI.findEntitiesByEUID(entityUUID);
     const [viewport] = SDK3DVerse.engineAPI.cameraAPI.getActiveViewports();
-    const speed = 30;
+    const speed = 15;
     SDK3DVerse.engineAPI.cameraAPI.stopTravel();
 
     // SDK3DVerse.engineAPI.cameraAPI.travel(

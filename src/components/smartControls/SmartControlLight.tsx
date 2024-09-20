@@ -20,7 +20,7 @@ export const SmartControlLight = () => {
     //--------------------------------------------------------------------------
     const [spotLightEntity, setSpotLightEntity] = useState<Entity | undefined>(undefined);
     const [intensity, setIntensity] = useState(0);
-    const INTENSITY_MAX = 100;
+    const INTENSITY_MAX = 70;
     const [color, setColor] = useState([0, 0, 0]);
 
     //--------------------------------------------------------------------------
