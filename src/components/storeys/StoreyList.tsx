@@ -12,9 +12,8 @@ import { StoreyListAccordionItem } from "./StoreyListAccordionItem";
 
 //------------------------------------------------------------------------------
 import { IfcData, IfcType } from "@/types/ifc";
-import { getEntityFromGuid, toToggle } from "@/lib/3dverse/helpers";
+import { getEntityFromGuid } from "@/lib/3dverse/helpers";
 
-//------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 export const StoreyList = () => {
     //------------------------------------------------------------------------------
@@ -24,57 +23,56 @@ export const StoreyList = () => {
     const storeyKey = "IfcBuildingStorey";
     const storeyGuids = ifctypes[storeyKey];
 
-    const [visibleStoreys, setVisibleStoreys]: any = useState(new Array(storeyGuids.length).fill(true));
+    // Function to check if a storey has IfcSpaces
+    const hasStoreySpaces = (storeyGuid: string): boolean => {
+        const spaces = ifcData[storeyGuid].props?.spaces;
+        return Array.isArray(spaces) && spaces.length > 0;
+    };
+
+    // Filter out storeys without IfcSpaces
+    const filteredStoreyGuids = storeyGuids.filter(hasStoreySpaces);
+
+    // Initialize visibleStoreys as an object mapping storeyGuid to boolean
+    const initialVisibility = filteredStoreyGuids.reduce((acc, guid) => {
+        acc[guid] = true;
+        return acc;
+    }, {} as { [key: string]: boolean });
+
+    const [visibleStoreys, setVisibleStoreys] = useState(initialVisibility);
 
     //------------------------------------------------------------------------------
-    const handleStoreyVisibility = async (index: any, storeyGuid: string | null, event: any) => {
+    const handleStoreyVisibility = async (storeyGuid: string, event: any) => {
         event.stopPropagation();
 
         if (storeyGuid) {
             const storeyEntity = await getEntityFromGuid(storeyGuid);
 
-            if (!visibleStoreys[index]) {
-                setVisibleStoreys((a: Array<boolean>) => {
-                    const newArray = [...a];
-                    newArray[index] = true;
-                    return newArray;
-                });
+            const isVisible = visibleStoreys[storeyGuid];
 
-                storeyEntity?.setVisibility(true);
-            } else {
-                setVisibleStoreys((a: Array<boolean>) => {
-                    const newArray = [...a];
-                    newArray[index] = false;
-                    return newArray;
-                });
-                storeyEntity?.setVisibility(false);
-            }
+            setVisibleStoreys((prevState) => ({
+                ...prevState,
+                [storeyGuid]: !isVisible,
+            }));
+
+            storeyEntity?.setVisibility(!isVisible);
         }
     };
 
     //------------------------------------------------------------------------------
+    const areSomeVisible = Object.values(visibleStoreys).some((element: boolean) => element === true);
+
     const toggleStoreysVisibility = async (event: any) => {
         event.stopPropagation();
-        const rootEntities = await SDK3DVerse.engineAPI.getRootEntities();
-        if (visibleStoreys.some((element: boolean) => element === true)) {
-            setVisibleStoreys(Array(visibleStoreys.length).fill(false));
-            for (const rootEntity of rootEntities) {
-                if (toToggle(rootEntity.components)) {
-                    await rootEntity.setVisibility(false);
-                }
-            }
-        } else {
-            setVisibleStoreys(Array(visibleStoreys.length).fill(true));
-            for (const rootEntity of rootEntities) {
-                if (toToggle(rootEntity.components)) {
-                    await rootEntity.setVisibility(true);
-                }
-            }
-        }
-    };
+        const newVisibility = !areSomeVisible;
 
-    //------------------------------------------------------------------------------
-    const areSomeVisible = visibleStoreys.some((element: boolean) => element === true);
+        const newVisibleStoreys = { ...visibleStoreys };
+        for (const storeyGuid of filteredStoreyGuids) {
+            newVisibleStoreys[storeyGuid] = newVisibility;
+            const storeyEntity = await getEntityFromGuid(storeyGuid);
+            await storeyEntity?.setVisibility(newVisibility);
+        }
+        setVisibleStoreys(newVisibleStoreys);
+    };
 
     //------------------------------------------------------------------------------
     return (
@@ -96,19 +94,16 @@ export const StoreyList = () => {
 
                 <div className="md:mx-2">
                     <Accordion allowMultiple>
-                        {storeyGuids.map((storeyGuid: string, index: number) => {
-                            const spaces = ifcData[storeyGuid].props?.spaces;
-                            const hasStoreySpaces = typeof spaces === "object" && spaces!.length > 0;
-                            const isStoreyVisible = visibleStoreys[index];
+                        {filteredStoreyGuids.map((storeyGuid: string, index: number) => {
+                            const isStoreyVisible = visibleStoreys[storeyGuid];
 
                             return (
                                 <StoreyListAccordionItem
-                                    key={index}
+                                    key={storeyGuid}
                                     index={index}
                                     ifcData={ifcData}
                                     storeyGuid={storeyGuid}
-                                    storeyCount={storeyGuids.length}
-                                    hasStoreySpaces={hasStoreySpaces}
+                                    storeyCount={filteredStoreyGuids.length}
                                     isStoreyVisible={isStoreyVisible}
                                     handleStoreyVisibility={handleStoreyVisibility}
                                 />

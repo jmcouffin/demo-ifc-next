@@ -1,22 +1,16 @@
-//------------------------------------------------------------------------------
 import { MouseEvent } from "react";
 import { AccordionItem, AccordionButton, AccordionIcon, IconButton } from "@chakra-ui/react";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 
-//------------------------------------------------------------------------------
 import { CaretRightSharpSolidIcon } from "@/components/common/icons";
 import { StoreyListAccordionPanel } from "./StoreyListAccordionPanel";
 
-//------------------------------------------------------------------------------
 import { IfcData } from "@/types/ifc";
 
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 export const StoreyListAccordionItem = ({
     ifcData,
     storeyGuid,
     storeyCount,
-    hasStoreySpaces,
     isStoreyVisible,
     index,
     handleStoreyVisibility,
@@ -24,17 +18,14 @@ export const StoreyListAccordionItem = ({
     ifcData: IfcData;
     storeyGuid: string;
     storeyCount: number;
-    hasStoreySpaces: boolean;
     isStoreyVisible: boolean;
     index: number;
-    handleStoreyVisibility: (index: number, GlobalId: string, event: MouseEvent<HTMLButtonElement>) => void;
+    handleStoreyVisibility: (storeyGuid: string, event: MouseEvent<HTMLButtonElement>) => void;
 }) => {
     return (
         <AccordionItem
             key={ifcData[storeyGuid].props.GlobalId}
             border="none"
-            isDisabled={!hasStoreySpaces}
-            opacity={isStoreyVisible ? 1 : 0.6}
             transition="opacity .25s"
         >
             {({ isExpanded }) => (
@@ -64,25 +55,20 @@ export const StoreyListAccordionItem = ({
                             _expanded={{
                                 bgColor: "var(--color-bg-underground)",
                             }}
-                            _disabled={{
-                                opacity: 1,
-                                bgColor: "hsl(var(--color-bg-underground-hsl), .5)",
-                            }}
                         >
                             <AccordionIcon
                                 as={CaretRightSharpSolidIcon}
                                 width="3"
                                 height="3"
-                                opacity={hasStoreySpaces ? (isExpanded ? "1 !important" : 0.2) : "0 !important"}
+                                opacity={isExpanded ? "1 !important" : 0.2}
                                 className="fill-accent group-hover:opacity-[.4] transition-opacity"
                                 _expanded={{
                                     transform: "rotate(180deg)",
                                 }}
                             />
 
-                            <h2 className={`flex-1 text-left font-medium ${hasStoreySpaces ? "" : "text-secondary"}`}>
+                            <h2 className="flex-1 text-left font-medium">
                                 {ifcData[storeyGuid].props.Name}
-                                {!hasStoreySpaces && <span className="px-3 text-xs text-tertiary">No IfcSpace</span>}
                             </h2>
                         </AccordionButton>
                         <IconButton
@@ -91,7 +77,7 @@ export const StoreyListAccordionItem = ({
                             size="sm"
                             icon={isStoreyVisible ? <RiEyeLine /> : <RiEyeOffLine />}
                             onClick={(event) => {
-                                handleStoreyVisibility(index, ifcData[storeyGuid].props.GlobalId, event);
+                                handleStoreyVisibility(storeyGuid, event);
                             }}
                             pos="absolute"
                             top="0"
