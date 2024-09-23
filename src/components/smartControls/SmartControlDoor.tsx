@@ -4,7 +4,7 @@ import { Button, Icon } from "@chakra-ui/react";
 import { RiPauseFill, RiPlayLine } from "react-icons/ri";
 
 //------------------------------------------------------------------------------
-import { pauseAnimation, runAnimation, stopAnimation } from "@/lib/3dverse/helpers";
+import { pauseAnimation, runAnimation, stopAnimation, ANIMATION_UUID } from "@/lib/3dverse/helpers";
 import { twMerge } from "tailwind-merge";
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,6 @@ export const SmartControlDoor = ({
 }) => {
     //------------------------------------------------------------------------------
     const [isAnimationPlaying, setAnimationPlaying] = useState(false);
-    const ANIMATION_UUID = "4a621b5b-2ecb-45ff-9748-a708b6188342";
 
     //------------------------------------------------------------------------------
     const toggleAnimation = () => {

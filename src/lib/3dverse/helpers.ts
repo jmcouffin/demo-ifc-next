@@ -333,8 +333,10 @@ export function toToggle(components: string[]) {
     return !("camera" in components) && !("point_light" in components) && !("label" in components);
 }
 
+export const ANIMATION_UUID = "753fe534-73b6-4ede-8425-8ffc77d6e712"; // Animation Sequence Controller needs to be set up in the scene
+
 async function setAnimSeqControllerPlayState(playState: number) {
-    const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID("4a621b5b-2ecb-45ff-9748-a708b6188342"))[0];
+    const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID(ANIMATION_UUID))[0];
     const sequenceControlerComponent = animSeqControllerEntity.getComponent("animation_sequence_controller");
 
     const newSequenceControlerComponent = {
