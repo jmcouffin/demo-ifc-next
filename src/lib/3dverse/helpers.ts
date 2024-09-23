@@ -157,13 +157,13 @@ async function processPickedEntity(
   
       // Access the active viewport
       const viewport = SDK3DVerse.engineAPI.cameraAPI.getActiveViewports()[0];
-      const offset = 0.5; // Adjust the offset as needed
+      const offset = 2; // Adjust the offset as needed
   
       // Move the camera to a position offset from the entity
       await viewport.travel(
         [globalAABBMin[0] - offset, globalAABBCenter[1], globalAABBCenter[2]],
-        [0, 0, 0, 1],
-        10 // Duration in seconds; adjust as needed
+        [0, 0, 0, 0, 1],
+        25// Duration in 1nth seconds
       );
   
       // Make the camera look at the center of the entity
