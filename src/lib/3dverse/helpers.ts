@@ -455,7 +455,7 @@ export const LAMP_POS = {
     "position": [
         -1.74158,
         1.632169,
-        -0.204084
+        3
     ],
     "orientation": [
         -0.1,
