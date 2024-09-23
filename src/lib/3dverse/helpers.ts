@@ -122,33 +122,54 @@ async function processPickedEntity(
     position: { x: number; y: number },
     guidSetter: (guid: string) => void,
     energyVisible: boolean,
-) {
+  ) {
     const target = await SDK3DVerse.engineAPI.castScreenSpaceRay(position.x, position.y);
-
+  
     if (!target.pickedPosition) {
-        SDK3DVerse.engineAPI.unselectAllEntities();
-        guidSetter("");
-        return;
+      SDK3DVerse.engineAPI.unselectAllEntities();
+      guidSetter("");
+      return;
     }
-
+  
     const entity = target.entity;
-
+  
     if (!("tags" in entity.components)) {
-        return;
+      return;
     }
-
-    if (entity.components.tags.value[0] == "IfcSpace" && !energyVisible) {
-        entity.setVisibility(false);
-        await processPickedEntity(position, guidSetter, energyVisible);
-        entity.setVisibility(true);
+  
+    if (entity.components.tags.value[0] === "IfcSpace" && !energyVisible) {
+      entity.setVisibility(false);
+      await processPickedEntity(position, guidSetter, energyVisible);
+      entity.setVisibility(true);
     } else {
-        entity.select();
-        const guid = euid2guid(entity.getParent().getEUID());
-        if (guid in ifcData) {
-            guidSetter(euid2guid(entity.getParent().getEUID()));
-        }
+      entity.select();
+    const guid = euid2guid(entity.getParent().getEUID());
+      if (guid in ifcData) {
+        guidSetter(guid);
+      }
+  
+      // **Camera Movement Integration Starts Here**
+  
+      // Get the entity's global Axis-Aligned Bounding Box (AABB)
+      const globalAABB = entity.getGlobalAABB();
+      const globalAABBCenter = globalAABB.center;
+      const globalAABBMin = globalAABB.min;
+  
+      // Access the active viewport
+      const viewport = SDK3DVerse.engineAPI.cameraAPI.getActiveViewports()[0];
+      const offset = 0.5; // Adjust the offset as needed
+  
+      // Move the camera to a position offset from the entity
+      await viewport.travel(
+        [globalAABBMin[0] - offset, globalAABBCenter[1], globalAABBCenter[2]],
+        [0, 0, 0, 1],
+        10 // Duration in seconds; adjust as needed
+      );
+  
+      // Make the camera look at the center of the entity
+      viewport.lookAt(globalAABBCenter);
     }
-}
+  }
 
 export async function handleCanvasSelection(
     event: CanvasEvent,
