@@ -472,16 +472,16 @@ export const LAMP_POS = {
 
 export const DOOR_POS = {
     "position": [
-        10.82,
-        2.9999,
-        -2.89
-    ],
+        11.5,
+        5,
+        -10
+    ], // viewer position from the door
     "orientation": [
-        -90,
         0,
+        1,
         0,
         0
-    ],
+    ], // second value is 1 for 180 degree rotation of the camera
     "scale": [
         1,
         1,
@@ -489,8 +489,8 @@ export const DOOR_POS = {
     ]
 };
 
-export const LAMP_COORDS = [-2.446315,1.850855,0.015018];
-export const DOOR_COORDS = [11.78304672241211,4.192835330963135,-5.463983058929443];
+export const LAMP_COORDS = [-2.446315,1.850855,0.015018]; // exact lamp location
+export const DOOR_COORDS = [10.82,2.9999,-2.89]; // exact door location
 
 //--------------------------------------------------------------------------
 export const getSpotlightEntity = async () => {
