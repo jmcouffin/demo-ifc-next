@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   output: 'export',
-  basePath: '/demo-ifc-next',
+  // basePath: '/demo-ifc-next', // to be able to use localhost:300# without extra path
 };
 
 module.exports = {
