@@ -312,7 +312,7 @@ export function toToggle(components: string[]) {
     return !("camera" in components) && !("point_light" in components) && !("label" in components);
 }
 
-export const ANIMATION_UUID = ""; // Element UUID and not Animation sequence controler UUID
+export const ANIMATION_UUID = "a7a62caf-5d66-4318-9057-0270f9dcdfdb"; // Element UUID and not Animation sequence controler UUID
 
 async function setAnimSeqControllerPlayState(playState: number) {
     const animSeqControllerEntity = (await SDK3DVerse.engineAPI.findEntitiesByEUID(ANIMATION_UUID))[0];
