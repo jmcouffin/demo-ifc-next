@@ -101,4 +101,4 @@ npm install
 npm run dev
 ```
 
-This should open your browser. If it's not, open your browser and use http://localhost:3000/demo-ifc-next.
+This should open your browser. If it's not, open your browser and use http://localhost:3000.
